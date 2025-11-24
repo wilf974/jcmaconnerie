@@ -17,7 +17,7 @@ export default async function ProjectsPage() {
           <p className="text-center">Aucune réalisation n'a été publiée pour le moment.</p>
         ) : (
           <div className="grid grid-cols-3">
-            {projects.map((project) => (
+            {projects.map((project: typeof projects[0]) => (
               <div key={project.id} className="card">
                 <div style={{ position: 'relative', height: '250px', marginBottom: '1rem' }}>
                   <Image

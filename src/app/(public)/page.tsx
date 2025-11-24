@@ -83,7 +83,7 @@ export default async function Home() {
                     <div className="container">
                         <h2 className="text-center mb-md">Métamorphoses</h2>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '4rem' }}>
-                            {beforeAfterItems.map((item) => (
+                            {beforeAfterItems.map((item: typeof beforeAfterItems[0]) => (
                                 <BeforeAfterSlider 
                                     key={item.id}
                                     title={item.title}
@@ -123,7 +123,7 @@ export default async function Home() {
                     <div className="container">
                         <h2 className="text-center mb-md">Ce que disent nos clients</h2>
                         <div className="grid grid-cols-3">
-                            {testimonials.map((testimonial) => (
+                            {testimonials.map((testimonial: typeof testimonials[0]) => (
                                 <div key={testimonial.id} className="card">
                                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
                                         <h4 style={{ margin: 0 }}>{testimonial.name}</h4>

@@ -68,7 +68,7 @@ export default async function ReviewsPage() {
                     <p className="text-center">Aucun avis publié pour le moment.</p>
                 ) : (
                     <div className="grid grid-cols-3">
-                        {approvedTestimonials.map((review) => (
+                        {approvedTestimonials.map((review: typeof approvedTestimonials[0]) => (
                             <div key={review.id} className="card">
                                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
                                     <h4 style={{ margin: 0 }}>{review.name}</h4>

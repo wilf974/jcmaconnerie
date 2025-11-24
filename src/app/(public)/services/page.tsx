@@ -17,7 +17,7 @@ export default async function ServicesPage() {
           <p className="text-center">Aucun service n'a été ajouté pour le moment.</p>
         ) : (
           <div className="grid grid-cols-3">
-            {services.map((service) => (
+            {services.map((service: typeof services[0]) => (
               <div key={service.id} className="card">
                 {service.imageUrl && (
                   <div style={{ position: 'relative', height: '200px', marginBottom: '1rem' }}>
