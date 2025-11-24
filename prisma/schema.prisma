@@ -1,0 +1,79 @@
+generator client {
+  provider = "prisma-client-js"
+}
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model User {
+  id       String @id @default(cuid())
+  email    String @unique
+  password String
+  name     String?
+}
+
+model Service {
+  id          String @id @default(cuid())
+  title       String
+  description String
+  imageUrl    String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Project {
+  id          String @id @default(cuid())
+  title       String
+  description String
+  imageUrl    String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Testimonial {
+  id        String @id @default(cuid())
+  name      String
+  content   String
+  rating    Int @default(5)
+  approved  Boolean @default(false)
+  createdAt DateTime @default(now())
+}
+
+model ContactMessage {
+  id        String @id @default(cuid())
+  name      String
+  email     String
+  message   String
+  createdAt DateTime @default(now())
+}
+
+model BeforeAfter {
+  id          String @id @default(cuid())
+  title       String
+  beforeImage String
+  afterImage  String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model HomepageConfig {
+  id              String @id @default(cuid())
+  heroTitle       String
+  heroSubtitle    String
+  heroButtonText  String
+  heroButtonLink  String
+  heroButton2Text String
+  heroButton2Link String
+  updatedAt       DateTime @updatedAt
+}
+
+model FooterConfig {
+  id                 String @id @default(cuid())
+  companyDescription String
+  phone              String
+  email              String
+  address            String
+  updatedAt          DateTime @updatedAt
+}
