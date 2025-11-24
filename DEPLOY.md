@@ -9,74 +9,125 @@
 
 ## 🚀 Étapes de déploiement
 
-### 1. Préparation locale
+### ⚡ Option 1 : Installation automatique complète (Recommandé)
 
-Rendez les scripts exécutables :
+**Ceci est la méthode la plus simple et la plus rapide.**
 
-```bash
-chmod +x /home/user/jcmaconnerie/deploy.sh
-chmod +x /home/user/jcmaconnerie/setup-vps.sh
-```
-
-### 2. Lancer le déploiement initial
-
-Depuis votre machine locale, lancez le script de déploiement :
-
-```bash
-cd /home/user/jcmaconnerie
-./deploy.sh
-```
-
-Ce script va :
-- Tester la connexion SSH
-- Créer les répertoires sur le VPS
-- Copier tous les fichiers du projet
-- Créer un fichier `.env.production` basique
-
-### 3. Configuration manuelle sur le VPS
-
-Connectez-vous au VPS :
+Connectez-vous directement au VPS avec SSH et lancez :
 
 ```bash
 ssh root@168.231.84.168
-cd /opt/apps/jcmaconnerie
+
+# Téléchargez et lancez le script d'installation
+bash <(curl -s https://raw.githubusercontent.com/wilf974/jcmaconnerie/claude/deploy-vps-https-01MEf7Rw5FvEWWYPvRKubogH/initial-setup.sh)
 ```
 
-**Modifiez les variables d'environnement sensibles** :
-
-```bash
-nano .env.production
-```
-
-Générez un secret sécurisé pour NextAuth :
-
-```bash
-openssl rand -base64 32
-```
-
-Changez au minimum :
-- `DB_PASSWORD` → mot de passe de base de données sécurisé
-- `NEXTAUTH_SECRET` → clé générée ci-dessus
-
-### 4. Lancer le script de configuration du VPS
-
-Sur le VPS, lancez le script d'installation automatisé :
-
-```bash
-chmod +x /opt/apps/jcmaconnerie/setup-vps.sh
-/opt/apps/jcmaconnerie/setup-vps.sh
-```
-
-Ce script va automatiquement :
-- ✅ Installer Docker, Docker Compose, Nginx, Certbot
+**Ce script automatisé va :**
+- ✅ Installer Docker, Docker Compose, Nginx, Certbot et Git
+- ✅ Cloner le repository avec la bonne branche
 - ✅ Générer un certificat SSL Let's Encrypt
-- ✅ Configurer Nginx en tant que reverse proxy
-- ✅ Lancer les conteneurs Docker
-- ✅ Configurer le renouvellement automatique des certificats
+- ✅ Générer les variables d'environnement sécurisées
+- ✅ Construire et lancer les conteneurs Docker
+- ✅ Configurer Nginx en tant que reverse proxy HTTPS
+- ✅ Configurer le renouvellement automatique SSL
+- ✅ Tester l'accès HTTPS
 
-### 5. Vérification
+**C'est tout ! Votre site sera accessible à `https://jcmaconnerie.woutils.com` une fois le script terminé.**
 
-Vérifiez que tout fonctionne :
+---
+
+### ⚙️ Option 2 : Installation manuelle étape par étape
+
+Si vous préférez faire chaque étape manuellement :
+
+#### 2.1. Connectez-vous au VPS
+
+```bash
+ssh root@168.231.84.168
+```
+
+#### 2.2. Installez les dépendances système
+
+```bash
+apt-get update
+apt-get install -y docker.io docker-compose nginx certbot python3-certbot-nginx curl git openssl
+systemctl enable docker
+systemctl start docker
+```
+
+#### 2.3. Clonez le repository
+
+```bash
+mkdir -p /opt/apps
+cd /opt/apps
+git clone --branch claude/deploy-vps-https-01MEf7Rw5FvEWWYPvRKubogH https://github.com/wilf974/jcmaconnerie.git jcmaconnerie
+cd jcmaconnerie
+```
+
+#### 2.4. Créez le fichier .env.production
+
+```bash
+cat > .env.production << 'EOF'
+DB_USER=jcmaconnerie_user
+DB_PASSWORD=$(openssl rand -base64 32)
+DB_NAME=jcmaconnerie
+DOMAIN=jcmaconnerie.woutils.com
+NEXTAUTH_SECRET=$(openssl rand -base64 32)
+NEXTAUTH_URL=https://jcmaconnerie.woutils.com
+EOF
+```
+
+#### 2.5. Générez le certificat SSL
+
+```bash
+certbot certonly --standalone -d jcmaconnerie.woutils.com --non-interactive --agree-tos --register-unsafely-without-email
+```
+
+#### 2.6. Lancez l'application
+
+```bash
+cd /opt/apps/jcmaconnerie
+docker-compose -f docker-compose.prod.yml build
+docker-compose -f docker-compose.prod.yml up -d
+```
+
+#### 2.7. Configurez Nginx
+
+```bash
+cp nginx.conf /etc/nginx/sites-available/jcmaconnerie.woutils.com
+ln -sf /etc/nginx/sites-available/jcmaconnerie.woutils.com /etc/nginx/sites-enabled/
+rm /etc/nginx/sites-enabled/default 2>/dev/null || true
+nginx -t
+systemctl restart nginx
+systemctl enable nginx
+```
+
+#### 2.8. Configurez le renouvellement automatique SSL
+
+```bash
+mkdir -p /etc/letsencrypt/renewal-hooks/post
+cat > /etc/letsencrypt/renewal-hooks/post/restart-nginx.sh << 'HOOKEOF'
+#!/bin/bash
+systemctl reload nginx
+HOOKEOF
+chmod +x /etc/letsencrypt/renewal-hooks/post/restart-nginx.sh
+
+(crontab -l 2>/dev/null; echo "0 3 * * * certbot renew --quiet --post-hook 'systemctl reload nginx'") | crontab -
+```
+
+#### 2.9. Vérifiez que tout fonctionne
+
+```bash
+cd /opt/apps/jcmaconnerie
+docker-compose -f docker-compose.prod.yml ps
+curl https://jcmaconnerie.woutils.com
+```
+
+---
+
+### ✅ Vérification finale
+
+Une fois l'installation terminée, vérifiez :
 
 ```bash
 # Vérifier le statut des conteneurs
@@ -87,6 +138,9 @@ docker-compose -f /opt/apps/jcmaconnerie/docker-compose.prod.yml logs -f web
 
 # Vérifier Nginx
 curl https://jcmaconnerie.woutils.com
+
+# Vérifier le certificat SSL
+certbot certificates
 ```
 
 ## 📁 Structure des fichiers créés
