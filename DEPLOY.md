@@ -151,7 +151,9 @@ certbot certificates
 ├── docker-compose.prod.yml      # Configuration Docker pour production
 ├── Dockerfile.prod              # Dockerfile optimisé pour production
 ├── nginx.conf                   # Configuration Nginx avec SSL
-├── setup-vps.sh                 # Script d'installation du VPS
+├── initial-setup.sh             # Script d'installation initiale (cloné depuis GitHub)
+├── update.sh                    # Script de mise à jour (cloné depuis GitHub)
+├── DEPLOY.md                    # Ce fichier
 ├── certs/                       # Certificats SSL (symlinké)
 ├── postgres_data/               # Données PostgreSQL (volume)
 └── [autres fichiers du projet]
@@ -159,18 +161,42 @@ certbot certificates
 
 ## 🔄 Mises à jour ultérieures
 
-Pour mettre à jour l'application après un commit Git :
+Après chaque commit sur la branche `claude/deploy-vps-https-01MEf7Rw5FvEWWYPvRKubogH`, vous devez mettre à jour l'application sur le VPS.
+
+### Option 1: Script automatique (Recommandé)
+
+Sur le VPS, lancez simplement :
 
 ```bash
-# Sur votre machine locale
-cd /home/user/jcmaconnerie
-git pull origin main
-./deploy.sh
-
-# Sur le VPS
 cd /opt/apps/jcmaconnerie
+chmod +x update.sh
+./update.sh
+```
+
+Ce script va automatiquement :
+- ✅ Faire un `git pull` pour récupérer les changements
+- ✅ Reconstruire l'image Docker
+- ✅ Redémarrer les conteneurs
+- ✅ Vérifier que tout fonctionne
+
+### Option 2: Étapes manuelles
+
+```bash
+cd /opt/apps/jcmaconnerie
+
+# Récupérer les changements du repository
+git fetch origin claude/deploy-vps-https-01MEf7Rw5FvEWWYPvRKubogH
+git pull origin claude/deploy-vps-https-01MEf7Rw5FvEWWYPvRKubogH
+
+# Reconstruire l'image Docker
 docker-compose -f docker-compose.prod.yml build
+
+# Redémarrer les conteneurs
+docker-compose -f docker-compose.prod.yml down
 docker-compose -f docker-compose.prod.yml up -d
+
+# Vérifier que tout fonctionne
+docker-compose -f docker-compose.prod.yml logs -f web
 ```
 
 ## 🆘 Dépannage
