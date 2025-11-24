@@ -24,7 +24,7 @@ export default async function MessagesAdminPage() {
                 <p>Aucun message reçu.</p>
             ) : (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                    {messages.map(msg => (
+                    {messages.map((msg: typeof messages[0]) => (
                         <div key={msg.id} className="card" style={{ display: 'flex', justifyContent: 'space-between', gap: '2rem' }}>
                             <div style={{ flex: 1 }}>
                                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>

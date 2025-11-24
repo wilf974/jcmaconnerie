@@ -88,7 +88,7 @@ export default async function TestimonialsAdminPage() {
 
             {/* List */}
             <div className="grid grid-cols-3">
-                {testimonials.map(review => (
+                {testimonials.map((review: typeof testimonials[0]) => (
                     <div key={review.id} className="card" style={{ borderLeft: review.approved ? '4px solid green' : '4px solid orange' }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
                             <h4 style={{ margin: 0 }}>{review.name}</h4>

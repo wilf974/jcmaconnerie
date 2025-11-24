@@ -66,7 +66,7 @@ export default async function ProjectsAdminPage() {
 
             {/* List */}
             <div className="grid grid-cols-3">
-                {projects.map(project => (
+                {projects.map((project: typeof projects[0]) => (
                     <div key={project.id} className="card">
                         <div style={{ marginBottom: '1rem' }}>
                             <img src={project.imageUrl} alt={project.title} style={{ width: '100%', height: '200px', objectFit: 'cover', borderRadius: '0.25rem' }} />
