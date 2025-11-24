@@ -67,7 +67,7 @@ export default async function BeforeAfterAdminPage() {
 
             {/* List */}
             <div className="grid grid-cols-3">
-                {items.map(item => (
+                {items.map((item: typeof items[0]) => (
                     <div key={item.id} className="card">
                         <h4>{item.title}</h4>
                         <div style={{ display: 'flex', gap: '0.5rem', margin: '1rem 0' }}>
