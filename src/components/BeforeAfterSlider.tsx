@@ -117,18 +117,16 @@ export default function BeforeAfterSlider({ beforeImage, afterImage, title }: Be
                 </div>
 
                 {/* Slider Handle */}
-                <div 
+                <div
                     style={{
                         position: 'absolute',
-                        top: 0,
-                        bottom: 0,
                         left: `${sliderPosition}%`,
+                        top: '50%',
                         width: '40px',
                         height: '40px',
                         background: 'white',
                         borderRadius: '50%',
-                        transform: 'translate(-50%, calc(50% - 20px))', // Center vertically and horizontally relative to line
-                        top: '50%',
+                        transform: 'translate(-50%, -50%)',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
