@@ -1,5 +1,11 @@
 import { prisma } from "@/lib/prisma"
 import Image from "next/image"
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+    title: "Nos Services",
+    description: "Découvrez nos services de maçonnerie : construction neuve, rénovation, aménagements extérieurs, terrasses et murets.",
+}
 
 export const dynamic = 'force-dynamic'
 

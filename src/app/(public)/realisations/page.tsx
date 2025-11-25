@@ -1,5 +1,11 @@
 import { prisma } from "@/lib/prisma"
 import Image from "next/image"
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+    title: "Nos Réalisations",
+    description: "Découvrez nos projets de maçonnerie, rénovation et construction. Galerie de nos réalisations avant/après.",
+}
 
 export const dynamic = 'force-dynamic'
 

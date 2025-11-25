@@ -19,7 +19,7 @@
 ### Priorité haute
 - [x] Confirmation visuelle après soumission (avis, contact)
 - [ ] Galerie d'images pour les réalisations (plusieurs photos par projet)
-- [ ] SEO : meta tags dynamiques, sitemap.xml
+- [x] SEO : meta tags dynamiques, sitemap.xml, robots.txt
 
 ### Priorité moyenne
 - [x] Animation fade-in/out sur les labels du slider

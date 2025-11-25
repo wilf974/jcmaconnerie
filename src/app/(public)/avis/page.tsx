@@ -1,5 +1,11 @@
 import { prisma } from "@/lib/prisma"
 import ReviewForm from "@/components/ReviewForm"
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+    title: "Avis Clients",
+    description: "Découvrez les avis de nos clients satisfaits. Partagez votre expérience avec JC Maçonnerie.",
+}
 
 export const dynamic = 'force-dynamic'
 

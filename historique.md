@@ -32,6 +32,11 @@
 - Composant `ReviewForm` avec confirmation après soumission d'avis
 - Gestion des états loading/error/success
 
+### SEO
+- Meta tags dynamiques sur toutes les pages (title, description, OpenGraph, Twitter)
+- Sitemap.xml généré automatiquement
+- Robots.txt pour les moteurs de recherche
+
 ## Structure du projet
 
 ### Pages publiques

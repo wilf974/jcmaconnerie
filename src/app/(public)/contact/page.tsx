@@ -1,6 +1,12 @@
 import { prisma } from "@/lib/prisma"
 import { revalidatePath } from "next/cache"
 import ContactForm from "@/components/ContactForm"
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+    title: "Contact",
+    description: "Contactez JC Maçonnerie pour vos projets de construction et rénovation. Devis gratuit et sans engagement.",
+}
 
 export const dynamic = 'force-dynamic'
 
