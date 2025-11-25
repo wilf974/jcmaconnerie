@@ -1,38 +1,39 @@
-version: '3.8'
-
 services:
   postgres:
     image: postgres:15-alpine
+    container_name: jcmaconnerie_dev_db
     environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
+      POSTGRES_USER: jcmaconnerie
+      POSTGRES_PASSWORD: jcmaconnerie
       POSTGRES_DB: jcmaconnerie
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
-      - "5432:5432"
+      - "10432:5432"
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U user -d jcmaconnerie" ]
+      test: [ "CMD-SHELL", "pg_isready -U jcmaconnerie -d jcmaconnerie" ]
       interval: 5s
       timeout: 5s
       retries: 5
 
   web:
     build: .
+    container_name: jcmaconnerie_dev_web
     command: >
       sh -c "npx prisma generate &&
              npx prisma db push && 
              node prisma/seed.js && 
              npm run dev"
     ports:
-      - "3000:3000"
+      - "10300:3000"
     environment:
-      DATABASE_URL: postgresql://user:password@postgres:5432/jcmaconnerie
-      NEXTAUTH_SECRET: supersecret_change_me_in_production
-      NEXTAUTH_URL: http://localhost:3000
+      DATABASE_URL: postgresql://jcmaconnerie:jcmaconnerie@postgres:5432/jcmaconnerie
+      NEXTAUTH_SECRET: dev_secret_key_for_local_testing
+      NEXTAUTH_URL: http://localhost:10300
     volumes:
       - .:/app
       - /app/node_modules
+      - /app/.next
     depends_on:
       postgres:
         condition: service_healthy
