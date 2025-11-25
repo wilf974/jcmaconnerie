@@ -10,7 +10,7 @@ interface BeforeAfterSliderProps {
 }
 
 export default function BeforeAfterSlider({ beforeImage, afterImage, title }: BeforeAfterSliderProps) {
-    const [sliderPosition, setSliderPosition] = useState(50)
+    const [sliderPosition, setSliderPosition] = useState(100)
     const containerRef = useRef<HTMLDivElement>(null)
 
     const handleMove = (event: React.MouseEvent | React.TouchEvent) => {
