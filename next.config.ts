@@ -6,13 +6,6 @@ const nextConfig: NextConfig = {
       bodySizeLimit: '20mb',
     },
   },
-  // Configuration pour les routes API
-  api: {
-    bodyParser: {
-      sizeLimit: '20mb',
-    },
-    responseLimit: false,
-  },
   // Configuration pour les images
   images: {
     remotePatterns: [],

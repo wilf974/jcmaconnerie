@@ -11,10 +11,11 @@ export const dynamic = 'force-dynamic'
  */
 export async function GET(
     request: NextRequest,
-    { params }: { params: { path: string[] } }
+    { params }: { params: Promise<{ path: string[] }> }
 ) {
     try {
-        const filename = params.path.join('/')
+        const { path } = await params
+        const filename = path.join('/')
         
         // Sécurité : empêcher les path traversal
         if (filename.includes('..')) {
