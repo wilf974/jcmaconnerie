@@ -1,6 +1,5 @@
 import { prisma } from "@/lib/prisma"
 import { revalidatePath } from "next/cache"
-import { saveFile } from "@/lib/upload"
 import BeforeAfterForm from "@/components/BeforeAfterForm"
 
 export const dynamic = 'force-dynamic'
@@ -12,37 +11,15 @@ export default async function BeforeAfterAdminPage() {
 
     async function addItem(formData: FormData) {
         'use server'
-        console.log('=== Début addItem ===')
-        
         try {
             const title = formData.get('title') as string
-            const beforeImageFile = formData.get('beforeImage') as File
-            const afterImageFile = formData.get('afterImage') as File
+            const beforeImageUrl = formData.get('beforeImageUrl') as string
+            const afterImageUrl = formData.get('afterImageUrl') as string
 
-            console.log('Données reçues:', {
-                title,
-                beforeImageSize: beforeImageFile?.size,
-                afterImageSize: afterImageFile?.size,
-                beforeImageName: beforeImageFile?.name,
-                afterImageName: afterImageFile?.name
-            })
-
-            if (!title || !beforeImageFile || !afterImageFile) {
+            if (!title || !beforeImageUrl || !afterImageUrl) {
                 throw new Error('Tous les champs sont requis')
             }
 
-            if (beforeImageFile.size === 0 || afterImageFile.size === 0) {
-                throw new Error('Les fichiers images sont requis')
-            }
-
-            console.log('Sauvegarde des fichiers...')
-            const beforeImageUrl = await saveFile(beforeImageFile)
-            console.log('Image avant sauvegardée:', beforeImageUrl)
-            
-            const afterImageUrl = await saveFile(afterImageFile)
-            console.log('Image après sauvegardée:', afterImageUrl)
-
-            console.log('Création en base de données...')
             await prisma.beforeAfter.create({
                 data: { 
                     title, 
@@ -50,19 +27,12 @@ export default async function BeforeAfterAdminPage() {
                     afterImage: afterImageUrl 
                 }
             })
-            console.log('Création réussie')
             
             revalidatePath('/admin/avant-apres')
             revalidatePath('/')
-            console.log('=== Fin addItem (succès) ===')
         } catch (error) {
-            const errorMessage = error instanceof Error ? error.message : 'Erreur inconnue'
-            const errorStack = error instanceof Error ? error.stack : undefined
-            console.error('=== Erreur addItem ===', {
-                message: errorMessage,
-                stack: errorStack
-            })
-            throw new Error(`Erreur: ${errorMessage}`)
+            console.error('Erreur lors de l\'ajout:', error)
+            throw error instanceof Error ? error : new Error('Erreur lors de l\'ajout de la comparaison')
         }
     }
 

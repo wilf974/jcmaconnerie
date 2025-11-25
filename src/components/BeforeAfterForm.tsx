@@ -1,40 +1,85 @@
 'use client'
 
-import { useActionState } from 'react'
 import { useState } from 'react'
 
 /**
  * Composant client pour le formulaire d'ajout Avant/Après
- * Utilise useActionState pour gérer les erreurs de Server Action
+ * Utilise une route API pour l'upload des fichiers
  */
 export default function BeforeAfterForm({ addItem }: { addItem: (formData: FormData) => Promise<void> }) {
-    const [state, formAction, isPending] = useActionState(
-        async (prevState: any, formData: FormData) => {
-            try {
-                await addItem(formData)
-                return { success: true, error: null }
-            } catch (error) {
-                return { 
-                    success: false, 
-                    error: error instanceof Error ? error.message : 'Une erreur est survenue' 
-                }
-            }
-        },
-        { success: false, error: null }
-    )
-
+    const [error, setError] = useState<string | null>(null)
+    const [isPending, setIsPending] = useState(false)
     const [beforeFileName, setBeforeFileName] = useState('Aucun fichier sélectionné.')
     const [afterFileName, setAfterFileName] = useState('Aucun fichier sélectionné.')
 
-    if (state.success) {
-        // Recharger la page après succès
-        window.location.reload()
+    async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+        e.preventDefault()
+        setError(null)
+        setIsPending(true)
+
+        try {
+            const formData = new FormData(e.currentTarget)
+            const title = formData.get('title') as string
+            const beforeImageFile = formData.get('beforeImage') as File
+            const afterImageFile = formData.get('afterImage') as File
+
+            if (!title || !beforeImageFile || !afterImageFile || beforeImageFile.size === 0 || afterImageFile.size === 0) {
+                throw new Error('Tous les champs sont requis')
+            }
+
+            // Upload des fichiers via API
+            const [beforeRes, afterRes] = await Promise.all([
+                uploadFile(beforeImageFile),
+                uploadFile(afterImageFile)
+            ])
+
+            if (!beforeRes.success || !afterRes.success) {
+                throw new Error(beforeRes.error || afterRes.error || 'Erreur lors de l\'upload')
+            }
+
+            // Créer l'entrée en base via Server Action
+            const actionFormData = new FormData()
+            actionFormData.append('title', title)
+            actionFormData.append('beforeImageUrl', beforeRes.url)
+            actionFormData.append('afterImageUrl', afterRes.url)
+
+            await addItem(actionFormData)
+            
+            // Recharger la page après succès
+            window.location.reload()
+        } catch (err) {
+            setError(err instanceof Error ? err.message : 'Une erreur est survenue')
+        } finally {
+            setIsPending(false)
+        }
+    }
+
+    async function uploadFile(file: File): Promise<{ success: boolean; url?: string; error?: string }> {
+        try {
+            const formData = new FormData()
+            formData.append('file', file)
+
+            const response = await fetch('/api/upload', {
+                method: 'POST',
+                body: formData
+            })
+
+            const data = await response.json()
+
+            if (!response.ok) {
+                return { success: false, error: data.error || 'Erreur upload' }
+            }
+
+            return { success: true, url: data.url }
+        } catch (err) {
+            return { success: false, error: err instanceof Error ? err.message : 'Erreur upload' }
+        }
     }
 
     return (
         <div className="card mb-md" style={{ marginBottom: '2rem' }}>
             <h3>Ajouter une nouvelle comparaison</h3>
-            {state.error && (
+            {error && (
                 <div style={{
                     background: 'rgba(255, 0, 0, 0.1)',
                     border: '1px solid red',
@@ -43,10 +88,10 @@ export default function BeforeAfterForm({ addItem }: { addItem: (formData: FormD
                     borderRadius: '0.5rem',
                     marginBottom: '1rem'
                 }}>
-                    <strong>Erreur :</strong> {state.error}
+                    <strong>Erreur :</strong> {error}
                 </div>
             )}
-            <form action={formAction} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                 <div>
                     <label style={{ display: 'block', marginBottom: '0.5rem' }}>Titre</label>
                     <input 
