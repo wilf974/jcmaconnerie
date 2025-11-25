@@ -21,8 +21,8 @@ export async function POST(request: NextRequest) {
             )
         }
 
-        // Limite de taille : 10MB
-        const maxSize = 10 * 1024 * 1024
+        // Limite de taille : 20MB
+        const maxSize = 20 * 1024 * 1024
         if (file.size > maxSize) {
             return NextResponse.json(
                 { error: `Le fichier est trop volumineux (max: ${maxSize / 1024 / 1024}MB)` },

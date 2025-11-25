@@ -75,9 +75,21 @@ export default function BeforeAfterForm({ addItem }: { addItem: (formData: FormD
             console.log('Réponse upload:', { status: response.status, ok: response.ok })
 
             if (!response.ok) {
-                const errorData = await response.json().catch(() => ({ error: 'Erreur inconnue' }))
-                console.error('Erreur upload:', errorData)
-                return { success: false, error: errorData.error || `Erreur HTTP ${response.status}` }
+                let errorMessage = `Erreur HTTP ${response.status}`
+                
+                if (response.status === 413) {
+                    errorMessage = 'Fichier trop volumineux. Taille maximale : 20MB'
+                } else {
+                    try {
+                        const errorData = await response.json()
+                        errorMessage = errorData.error || errorMessage
+                    } catch {
+                        // Si on ne peut pas parser le JSON, utiliser le message par défaut
+                    }
+                }
+                
+                console.error('Erreur upload:', { status: response.status, message: errorMessage })
+                return { success: false, error: errorMessage }
             }
 
             const data = await response.json()

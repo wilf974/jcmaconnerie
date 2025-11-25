@@ -13,8 +13,8 @@ export async function saveFile(file: File): Promise<string> {
         throw new Error('Le fichier est vide')
     }
 
-    // Limite de taille : 10MB
-    const maxSize = 10 * 1024 * 1024 // 10MB
+    // Limite de taille : 20MB
+    const maxSize = 20 * 1024 * 1024 // 20MB
     if (file.size > maxSize) {
         throw new Error(`Le fichier est trop volumineux (max: ${maxSize / 1024 / 1024}MB)`)
     }
