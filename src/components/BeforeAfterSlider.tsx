@@ -61,8 +61,8 @@ export default function BeforeAfterSlider({ beforeImage, afterImage, title }: Be
                     priority
                 />
                 
-                {/* Afficher "Après travaux" seulement quand l'image finale est complètement visible (slider à gauche) */}
-                {sliderPosition <= 10 && (
+                {/* Afficher "Après travaux" seulement quand l'image finale est complètement visible (slider à droite, avant invisible) */}
+                {sliderPosition >= 90 && (
                     <div 
                         style={{
                             position: 'absolute',
@@ -106,8 +106,8 @@ export default function BeforeAfterSlider({ beforeImage, afterImage, title }: Be
                         style={{ objectFit: 'cover' }}
                         priority
                     />
-                     {/* Afficher "Avant travaux" seulement quand l'image avant est visible (slider à droite) */}
-                     {sliderPosition >= 90 && (
+                     {/* Afficher "Avant travaux" seulement quand l'image avant est visible (slider à gauche, avant visible) */}
+                     {sliderPosition <= 10 && (
                         <div 
                             style={{
                                 position: 'absolute',
