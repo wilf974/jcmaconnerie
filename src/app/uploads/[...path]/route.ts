@@ -17,7 +17,7 @@ export async function GET(
         const filename = params.path.join('/')
         
         // Sécurité : empêcher les path traversal
-        if (filename.includes('..') || filename.includes('/')) {
+        if (filename.includes('..')) {
             return NextResponse.json(
                 { error: 'Invalid path' },
                 { status: 400 }
