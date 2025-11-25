@@ -1,6 +1,8 @@
 import { prisma } from "@/lib/prisma"
 import { revalidatePath } from "next/cache"
 
+export const dynamic = 'force-dynamic'
+
 export default async function MessagesAdminPage() {
     const messages = await prisma.contactMessage.findMany({
         orderBy: { createdAt: 'desc' }

@@ -1,6 +1,8 @@
 import { prisma } from "@/lib/prisma"
 import { revalidatePath } from "next/cache"
 
+export const dynamic = 'force-dynamic'
+
 export default async function HomepageAdminPage() {
     // Get existing config or use defaults
     const config = await prisma.homepageConfig.findFirst() || {

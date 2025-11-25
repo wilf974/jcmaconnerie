@@ -1,6 +1,8 @@
 import { prisma } from "@/lib/prisma"
 import { revalidatePath } from "next/cache"
 
+export const dynamic = 'force-dynamic'
+
 export default async function FooterAdminPage() {
     const config = await prisma.footerConfig.findFirst() || {
         companyDescription: "Expertise et savoir-faire pour tous vos projets de construction et rénovation. Qualité et satisfaction client sont nos priorités.",
