@@ -64,19 +64,21 @@ export default function BeforeAfterSlider({ beforeImage, afterImage, title }: Be
                 <div 
                     style={{
                         position: 'absolute',
-                        top: 20,
-                        left: 20,
-                        background: 'rgba(0,0,0,0.75)',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        background: 'rgba(0,0,0,0.85)',
                         color: 'white',
-                        padding: '0.5rem 1rem',
-                        borderRadius: '0.5rem',
-                        fontSize: '1rem',
+                        padding: '1rem 2rem',
+                        borderRadius: '1rem',
+                        fontSize: '1.5rem',
                         fontWeight: 'bold',
                         pointerEvents: 'none',
                         zIndex: 10,
-                        border: '2px solid white',
+                        border: '3px solid white',
                         textTransform: 'uppercase',
-                        letterSpacing: '0.1em'
+                        letterSpacing: '0.15em',
+                        boxShadow: '0 4px 20px rgba(0,0,0,0.5)'
                     }}
                 >
                     Après travaux
@@ -104,19 +106,21 @@ export default function BeforeAfterSlider({ beforeImage, afterImage, title }: Be
                      <div 
                         style={{
                             position: 'absolute',
-                            top: 20,
-                            right: 20,
-                            background: 'rgba(0,0,0,0.75)',
+                            top: '50%',
+                            left: '50%',
+                            transform: 'translate(-50%, -50%)',
+                            background: 'rgba(0,0,0,0.85)',
                             color: 'white',
-                            padding: '0.5rem 1rem',
-                            borderRadius: '0.5rem',
-                            fontSize: '1rem',
+                            padding: '1rem 2rem',
+                            borderRadius: '1rem',
+                            fontSize: '1.5rem',
                             fontWeight: 'bold',
                             pointerEvents: 'none',
                             zIndex: 10,
-                            border: '2px solid white',
+                            border: '3px solid white',
                             textTransform: 'uppercase',
-                            letterSpacing: '0.1em'
+                            letterSpacing: '0.15em',
+                            boxShadow: '0 4px 20px rgba(0,0,0,0.5)'
                         }}
                     >
                         Avant travaux
