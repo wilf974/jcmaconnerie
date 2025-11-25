@@ -61,28 +61,31 @@ export default function BeforeAfterSlider({ beforeImage, afterImage, title }: Be
                     priority
                 />
                 
-                <div 
-                    style={{
-                        position: 'absolute',
-                        top: '50%',
-                        left: '50%',
-                        transform: 'translate(-50%, -50%)',
-                        background: 'rgba(0,0,0,0.85)',
-                        color: 'white',
-                        padding: '1rem 2rem',
-                        borderRadius: '1rem',
-                        fontSize: '1.5rem',
-                        fontWeight: 'bold',
-                        pointerEvents: 'none',
-                        zIndex: 10,
-                        border: '3px solid white',
-                        textTransform: 'uppercase',
-                        letterSpacing: '0.15em',
-                        boxShadow: '0 4px 20px rgba(0,0,0,0.5)'
-                    }}
-                >
-                    Après travaux
-                </div>
+                {/* Afficher "Après travaux" seulement quand l'image finale est complètement visible (slider à gauche) */}
+                {sliderPosition <= 10 && (
+                    <div 
+                        style={{
+                            position: 'absolute',
+                            top: '50%',
+                            left: '50%',
+                            transform: 'translate(-50%, -50%)',
+                            background: 'rgba(0,0,0,0.85)',
+                            color: 'white',
+                            padding: '1rem 2rem',
+                            borderRadius: '1rem',
+                            fontSize: '1.5rem',
+                            fontWeight: 'bold',
+                            pointerEvents: 'none',
+                            zIndex: 10,
+                            border: '3px solid white',
+                            textTransform: 'uppercase',
+                            letterSpacing: '0.15em',
+                            boxShadow: '0 4px 20px rgba(0,0,0,0.5)'
+                        }}
+                    >
+                        Après travaux
+                    </div>
+                )}
 
                 {/* Before Image (Foreground - Clipped, disparaît en glissant) */}
                 <div 
@@ -103,28 +106,31 @@ export default function BeforeAfterSlider({ beforeImage, afterImage, title }: Be
                         style={{ objectFit: 'cover' }}
                         priority
                     />
-                     <div 
-                        style={{
-                            position: 'absolute',
-                            top: '50%',
-                            left: '50%',
-                            transform: 'translate(-50%, -50%)',
-                            background: 'rgba(0,0,0,0.85)',
-                            color: 'white',
-                            padding: '1rem 2rem',
-                            borderRadius: '1rem',
-                            fontSize: '1.5rem',
-                            fontWeight: 'bold',
-                            pointerEvents: 'none',
-                            zIndex: 10,
-                            border: '3px solid white',
-                            textTransform: 'uppercase',
-                            letterSpacing: '0.15em',
-                            boxShadow: '0 4px 20px rgba(0,0,0,0.5)'
-                        }}
-                    >
-                        Avant travaux
-                    </div>
+                     {/* Afficher "Avant travaux" seulement quand l'image avant est visible (slider à droite) */}
+                     {sliderPosition >= 90 && (
+                        <div 
+                            style={{
+                                position: 'absolute',
+                                top: '50%',
+                                left: '50%',
+                                transform: 'translate(-50%, -50%)',
+                                background: 'rgba(0,0,0,0.85)',
+                                color: 'white',
+                                padding: '1rem 2rem',
+                                borderRadius: '1rem',
+                                fontSize: '1.5rem',
+                                fontWeight: 'bold',
+                                pointerEvents: 'none',
+                                zIndex: 10,
+                                border: '3px solid white',
+                                textTransform: 'uppercase',
+                                letterSpacing: '0.15em',
+                                boxShadow: '0 4px 20px rgba(0,0,0,0.5)'
+                            }}
+                        >
+                            Avant travaux
+                        </div>
+                     )}
                 </div>
 
                 {/* Slider Handle */}
