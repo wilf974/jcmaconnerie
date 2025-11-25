@@ -64,18 +64,22 @@ export default function BeforeAfterSlider({ beforeImage, afterImage, title }: Be
                 <div 
                     style={{
                         position: 'absolute',
-                        top: 10,
-                        left: 10,
-                        background: 'rgba(0,0,0,0.5)',
+                        top: 20,
+                        left: 20,
+                        background: 'rgba(0,0,0,0.75)',
                         color: 'white',
-                        padding: '0.25rem 0.5rem',
-                        borderRadius: '0.25rem',
-                        fontSize: '0.875rem',
+                        padding: '0.5rem 1rem',
+                        borderRadius: '0.5rem',
+                        fontSize: '1rem',
+                        fontWeight: 'bold',
                         pointerEvents: 'none',
-                        zIndex: 10
+                        zIndex: 10,
+                        border: '2px solid white',
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.1em'
                     }}
                 >
-                    AVANT
+                    Avant travaux
                 </div>
 
                 {/* After Image (Foreground - Clipped) */}
@@ -101,18 +105,22 @@ export default function BeforeAfterSlider({ beforeImage, afterImage, title }: Be
                      <div 
                         style={{
                             position: 'absolute',
-                            top: 10,
-                            right: 10, // Position relative to the clipped container
-                            background: 'rgba(0,0,0,0.5)',
+                            top: 20,
+                            right: 20, // Position relative to the clipped container
+                            background: 'rgba(0,0,0,0.75)',
                             color: 'white',
-                            padding: '0.25rem 0.5rem',
-                            borderRadius: '0.25rem',
-                            fontSize: '0.875rem',
+                            padding: '0.5rem 1rem',
+                            borderRadius: '0.5rem',
+                            fontSize: '1rem',
+                            fontWeight: 'bold',
                             pointerEvents: 'none',
-                            zIndex: 10
+                            zIndex: 10,
+                            border: '2px solid white',
+                            textTransform: 'uppercase',
+                            letterSpacing: '0.1em'
                         }}
                     >
-                        APRÈS
+                        Après travaux
                     </div>
                 </div>
 
