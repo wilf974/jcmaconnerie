@@ -26,8 +26,7 @@ services:
     container_name: jcmaconnerie_web
     restart: always
     command: >
-      sh -c "npx prisma generate &&
-             npx prisma db push &&
+      sh -c "./node_modules/.bin/prisma db push --skip-generate &&
              node prisma/seed.js &&
              npm run start"
     ports:
