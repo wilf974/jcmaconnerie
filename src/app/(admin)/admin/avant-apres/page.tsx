@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma"
 import { revalidatePath } from "next/cache"
 import { saveFile } from "@/lib/upload"
+import BeforeAfterForm from "@/components/BeforeAfterForm"
 
 export const dynamic = 'force-dynamic'
 
@@ -11,15 +12,19 @@ export default async function BeforeAfterAdminPage() {
 
     async function addItem(formData: FormData) {
         'use server'
+        const title = formData.get('title') as string
+        const beforeImageFile = formData.get('beforeImage') as File
+        const afterImageFile = formData.get('afterImage') as File
+
+        if (!title || !beforeImageFile || !afterImageFile) {
+            throw new Error('Tous les champs sont requis')
+        }
+
+        if (beforeImageFile.size === 0 || afterImageFile.size === 0) {
+            throw new Error('Les fichiers images sont requis')
+        }
+
         try {
-            const title = formData.get('title') as string
-            const beforeImageFile = formData.get('beforeImage') as File
-            const afterImageFile = formData.get('afterImage') as File
-
-            if (!title || !beforeImageFile || !afterImageFile) {
-                throw new Error('Tous les champs sont requis')
-            }
-
             const beforeImageUrl = await saveFile(beforeImageFile)
             const afterImageUrl = await saveFile(afterImageFile)
 
@@ -35,7 +40,7 @@ export default async function BeforeAfterAdminPage() {
             revalidatePath('/')
         } catch (error) {
             console.error('Erreur lors de l\'ajout:', error)
-            throw error
+            throw error instanceof Error ? error : new Error('Erreur lors de l\'ajout de la comparaison')
         }
     }
 
@@ -61,26 +66,7 @@ export default async function BeforeAfterAdminPage() {
             <h1>Gérer Avant/Après</h1>
             
             {/* Add Form */}
-            <div className="card mb-md" style={{ marginBottom: '2rem' }}>
-                <h3>Ajouter une nouvelle comparaison</h3>
-                <form action={addItem} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                    <div>
-                        <label style={{ display: 'block', marginBottom: '0.5rem' }}>Titre</label>
-                        <input type="text" name="title" required style={{ width: '100%', padding: '0.5rem' }} placeholder="Ex: Rénovation Façade" />
-                    </div>
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-                        <div>
-                            <label style={{ display: 'block', marginBottom: '0.5rem' }}>Image Avant</label>
-                            <input type="file" name="beforeImage" required accept="image/*" style={{ width: '100%', padding: '0.5rem' }} />
-                        </div>
-                        <div>
-                            <label style={{ display: 'block', marginBottom: '0.5rem' }}>Image Après</label>
-                            <input type="file" name="afterImage" required accept="image/*" style={{ width: '100%', padding: '0.5rem' }} />
-                        </div>
-                    </div>
-                    <button type="submit" className="btn btn-primary">Ajouter</button>
-                </form>
-            </div>
+            <BeforeAfterForm addItem={addItem} />
 
             {/* List */}
             <div className="grid grid-cols-3">
