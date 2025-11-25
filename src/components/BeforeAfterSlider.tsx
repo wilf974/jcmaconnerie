@@ -52,10 +52,10 @@ export default function BeforeAfterSlider({ beforeImage, afterImage, title }: Be
                     minHeight: '400px' // Force minimum height
                 }}
             >
-                {/* Before Image (Background) */}
+                {/* After Image (Background - Résultat final) */}
                 <Image
-                    src={beforeImage}
-                    alt="Avant travaux"
+                    src={afterImage}
+                    alt="Après travaux"
                     fill
                     style={{ objectFit: 'cover' }}
                     priority
@@ -79,25 +79,24 @@ export default function BeforeAfterSlider({ beforeImage, afterImage, title }: Be
                         letterSpacing: '0.1em'
                     }}
                 >
-                    Avant travaux
+                    Après travaux
                 </div>
 
-                {/* After Image (Foreground - Clipped) */}
+                {/* Before Image (Foreground - Clipped, disparaît en glissant) */}
                 <div 
                     style={{
                         position: 'absolute',
                         top: 0,
-                        left: 0,
                         right: 0,
                         bottom: 0,
-                        width: `${sliderPosition}%`,
+                        width: `${100 - sliderPosition}%`,
                         overflow: 'hidden',
-                        borderRight: '2px solid white'
+                        borderLeft: '2px solid white'
                     }}
                 >
                     <Image
-                        src={afterImage}
-                        alt="Après travaux"
+                        src={beforeImage}
+                        alt="Avant travaux"
                         fill
                         style={{ objectFit: 'cover' }}
                         priority
@@ -106,7 +105,7 @@ export default function BeforeAfterSlider({ beforeImage, afterImage, title }: Be
                         style={{
                             position: 'absolute',
                             top: 20,
-                            right: 20, // Position relative to the clipped container
+                            right: 20,
                             background: 'rgba(0,0,0,0.75)',
                             color: 'white',
                             padding: '0.5rem 1rem',
@@ -120,7 +119,7 @@ export default function BeforeAfterSlider({ beforeImage, afterImage, title }: Be
                             letterSpacing: '0.1em'
                         }}
                     >
-                        Après travaux
+                        Avant travaux
                     </div>
                 </div>
 
