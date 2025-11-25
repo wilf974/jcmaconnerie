@@ -38,12 +38,19 @@ export default function BeforeAfterForm({ addItem }: { addItem: (formData: FormD
             }
 
             // Créer l'entrée en base via Server Action
+            console.log('Création en base avec:', { title, beforeUrl: beforeRes.url, afterUrl: afterRes.url })
             const actionFormData = new FormData()
             actionFormData.append('title', title)
-            actionFormData.append('beforeImageUrl', beforeRes.url)
-            actionFormData.append('afterImageUrl', afterRes.url)
+            actionFormData.append('beforeImageUrl', beforeRes.url!)
+            actionFormData.append('afterImageUrl', afterRes.url!)
 
-            await addItem(actionFormData)
+            try {
+                await addItem(actionFormData)
+                console.log('Création réussie')
+            } catch (err) {
+                console.error('Erreur création:', err)
+                throw err
+            }
             
             // Recharger la page après succès
             window.location.reload()
@@ -56,6 +63,7 @@ export default function BeforeAfterForm({ addItem }: { addItem: (formData: FormD
 
     async function uploadFile(file: File): Promise<{ success: boolean; url?: string; error?: string }> {
         try {
+            console.log('Upload fichier:', { name: file.name, size: file.size, type: file.type })
             const formData = new FormData()
             formData.append('file', file)
 
@@ -64,14 +72,19 @@ export default function BeforeAfterForm({ addItem }: { addItem: (formData: FormD
                 body: formData
             })
 
-            const data = await response.json()
+            console.log('Réponse upload:', { status: response.status, ok: response.ok })
 
             if (!response.ok) {
-                return { success: false, error: data.error || 'Erreur upload' }
+                const errorData = await response.json().catch(() => ({ error: 'Erreur inconnue' }))
+                console.error('Erreur upload:', errorData)
+                return { success: false, error: errorData.error || `Erreur HTTP ${response.status}` }
             }
 
+            const data = await response.json()
+            console.log('Upload réussi:', data)
             return { success: true, url: data.url }
         } catch (err) {
+            console.error('Exception upload:', err)
             return { success: false, error: err instanceof Error ? err.message : 'Erreur upload' }
         }
     }
