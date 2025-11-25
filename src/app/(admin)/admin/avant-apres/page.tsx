@@ -11,34 +11,49 @@ export default async function BeforeAfterAdminPage() {
 
     async function addItem(formData: FormData) {
         'use server'
-        const title = formData.get('title') as string
-        const beforeImageFile = formData.get('beforeImage') as File
-        const afterImageFile = formData.get('afterImage') as File
+        try {
+            const title = formData.get('title') as string
+            const beforeImageFile = formData.get('beforeImage') as File
+            const afterImageFile = formData.get('afterImage') as File
 
-        if (!title || !beforeImageFile || !afterImageFile) return
-
-        const beforeImageUrl = await saveFile(beforeImageFile)
-        const afterImageUrl = await saveFile(afterImageFile)
-
-        await prisma.beforeAfter.create({
-            data: { 
-                title, 
-                beforeImage: beforeImageUrl, 
-                afterImage: afterImageUrl 
+            if (!title || !beforeImageFile || !afterImageFile) {
+                throw new Error('Tous les champs sont requis')
             }
-        })
-        revalidatePath('/admin/avant-apres')
-        revalidatePath('/')
+
+            const beforeImageUrl = await saveFile(beforeImageFile)
+            const afterImageUrl = await saveFile(afterImageFile)
+
+            await prisma.beforeAfter.create({
+                data: { 
+                    title, 
+                    beforeImage: beforeImageUrl, 
+                    afterImage: afterImageUrl 
+                }
+            })
+            
+            revalidatePath('/admin/avant-apres')
+            revalidatePath('/')
+        } catch (error) {
+            console.error('Erreur lors de l\'ajout:', error)
+            throw error
+        }
     }
 
     async function deleteItem(formData: FormData) {
         'use server'
-        const id = formData.get('id') as string
-        if (!id) return
+        try {
+            const id = formData.get('id') as string
+            if (!id) {
+                throw new Error('ID manquant')
+            }
 
-        await prisma.beforeAfter.delete({ where: { id } })
-        revalidatePath('/admin/avant-apres')
-        revalidatePath('/')
+            await prisma.beforeAfter.delete({ where: { id } })
+            revalidatePath('/admin/avant-apres')
+            revalidatePath('/')
+        } catch (error) {
+            console.error('Erreur lors de la suppression:', error)
+            throw error
+        }
     }
 
     return (
