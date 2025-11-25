@@ -31,6 +31,9 @@ COPY --from=builder /app/prisma ./prisma
 COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
 COPY --from=builder /app/node_modules/prisma ./node_modules/prisma
 
+# Créer le dossier uploads avec les bonnes permissions
+RUN mkdir -p /app/public/uploads && chmod 755 /app/public/uploads
+
 EXPOSE 3000
 
 CMD ["npm", "run", "start"]
