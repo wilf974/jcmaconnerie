@@ -2,6 +2,8 @@ import { prisma } from "@/lib/prisma"
 import { revalidatePath } from "next/cache"
 import { saveFile } from "@/lib/upload"
 
+export const dynamic = 'force-dynamic'
+
 export default async function ProjectsAdminPage() {
     const projects = await prisma.project.findMany({
         orderBy: { createdAt: 'desc' }
