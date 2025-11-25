@@ -37,6 +37,13 @@
 - Sitemap.xml généré automatiquement
 - Robots.txt pour les moteurs de recherche
 
+### Galerie d'images pour les réalisations
+- Nouveau modèle `ProjectImage` pour stocker plusieurs images par projet
+- Composant `ProjectForm` avec upload multiple d'images
+- Composant `ImageGallery` avec lightbox pour visualiser les images
+- Page admin mise à jour pour ajouter plusieurs photos
+- Page publique avec galerie interactive
+
 ## Structure du projet
 
 ### Pages publiques

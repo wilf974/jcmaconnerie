@@ -18,7 +18,7 @@
 
 ### Priorité haute
 - [x] Confirmation visuelle après soumission (avis, contact)
-- [ ] Galerie d'images pour les réalisations (plusieurs photos par projet)
+- [x] Galerie d'images pour les réalisations (plusieurs photos par projet)
 - [x] SEO : meta tags dynamiques, sitemap.xml, robots.txt
 
 ### Priorité moyenne
