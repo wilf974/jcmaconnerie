@@ -28,20 +28,38 @@ export async function saveFile(file: File): Promise<string> {
         const bytes = await file.arrayBuffer()
         const buffer = Buffer.from(bytes)
         
-        // Utilisation de __dirname ou process.cwd() selon l'environnement
+        // Utilisation de process.cwd() pour Docker
         const uploadDir = join(process.cwd(), 'public', 'uploads')
-        await mkdir(uploadDir, { recursive: true })
+        
+        // Créer le dossier avec permissions
+        try {
+            await mkdir(uploadDir, { recursive: true, mode: 0o755 })
+        } catch (mkdirError) {
+            console.error('Erreur création dossier uploads:', mkdirError)
+            // Continuer même si le dossier existe déjà
+        }
 
         // Nettoyage du nom de fichier
         const sanitizedName = file.name.replace(/[^a-zA-Z0-9.-]/g, '-')
         const filename = `${Date.now()}-${sanitizedName}`
         const filepath = join(uploadDir, filename)
         
-        await writeFile(filepath, buffer)
-        return `/uploads/${filename}`
+        console.log(`Sauvegarde fichier: ${filepath} (${file.size} bytes)`)
+        await writeFile(filepath, buffer, { mode: 0o644 })
+        
+        const url = `/uploads/${filename}`
+        console.log(`Fichier sauvegardé avec succès: ${url}`)
+        return url
     } catch (error) {
-        console.error('Erreur lors de la sauvegarde du fichier:', error)
-        throw new Error(`Impossible de sauvegarder le fichier: ${error instanceof Error ? error.message : 'Erreur inconnue'}`)
+        const errorMessage = error instanceof Error ? error.message : 'Erreur inconnue'
+        console.error('Erreur lors de la sauvegarde du fichier:', {
+            error: errorMessage,
+            stack: error instanceof Error ? error.stack : undefined,
+            fileSize: file.size,
+            fileName: file.name,
+            fileType: file.type
+        })
+        throw new Error(`Impossible de sauvegarder le fichier: ${errorMessage}`)
     }
 }
 
