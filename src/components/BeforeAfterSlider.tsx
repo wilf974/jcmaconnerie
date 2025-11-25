@@ -61,31 +61,31 @@ export default function BeforeAfterSlider({ beforeImage, afterImage, title }: Be
                     priority
                 />
                 
-                {/* Afficher "Après travaux" seulement quand l'image finale est complètement visible (slider à droite, avant invisible) */}
-                {sliderPosition >= 90 && (
-                    <div 
-                        style={{
-                            position: 'absolute',
-                            top: '50%',
-                            left: '50%',
-                            transform: 'translate(-50%, -50%)',
-                            background: 'rgba(0,0,0,0.85)',
-                            color: 'white',
-                            padding: '1rem 2rem',
-                            borderRadius: '1rem',
-                            fontSize: '1.5rem',
-                            fontWeight: 'bold',
-                            pointerEvents: 'none',
-                            zIndex: 10,
-                            border: '3px solid white',
-                            textTransform: 'uppercase',
-                            letterSpacing: '0.15em',
-                            boxShadow: '0 4px 20px rgba(0,0,0,0.5)'
-                        }}
-                    >
-                        Après travaux
-                    </div>
-                )}
+                {/* Label "Après travaux" avec animation fade */}
+                <div 
+                    style={{
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        background: 'rgba(0,0,0,0.85)',
+                        color: 'white',
+                        padding: '1rem 2rem',
+                        borderRadius: '1rem',
+                        fontSize: '1.5rem',
+                        fontWeight: 'bold',
+                        pointerEvents: 'none',
+                        zIndex: 10,
+                        border: '3px solid white',
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.15em',
+                        boxShadow: '0 4px 20px rgba(0,0,0,0.5)',
+                        opacity: sliderPosition >= 90 ? 1 : 0,
+                        transition: 'opacity 0.3s ease-in-out'
+                    }}
+                >
+                    Après travaux
+                </div>
 
                 {/* Before Image (Foreground - Clipped, disparaît en glissant) */}
                 <div 
@@ -106,31 +106,31 @@ export default function BeforeAfterSlider({ beforeImage, afterImage, title }: Be
                         style={{ objectFit: 'cover' }}
                         priority
                     />
-                     {/* Afficher "Avant travaux" seulement quand l'image avant est visible (slider à gauche, avant visible) */}
-                     {sliderPosition <= 10 && (
-                        <div 
-                            style={{
-                                position: 'absolute',
-                                top: '50%',
-                                left: '50%',
-                                transform: 'translate(-50%, -50%)',
-                                background: 'rgba(0,0,0,0.85)',
-                                color: 'white',
-                                padding: '1rem 2rem',
-                                borderRadius: '1rem',
-                                fontSize: '1.5rem',
-                                fontWeight: 'bold',
-                                pointerEvents: 'none',
-                                zIndex: 10,
-                                border: '3px solid white',
-                                textTransform: 'uppercase',
-                                letterSpacing: '0.15em',
-                                boxShadow: '0 4px 20px rgba(0,0,0,0.5)'
-                            }}
-                        >
-                            Avant travaux
-                        </div>
-                     )}
+                     {/* Label "Avant travaux" avec animation fade */}
+                     <div 
+                        style={{
+                            position: 'absolute',
+                            top: '50%',
+                            left: '50%',
+                            transform: 'translate(-50%, -50%)',
+                            background: 'rgba(0,0,0,0.85)',
+                            color: 'white',
+                            padding: '1rem 2rem',
+                            borderRadius: '1rem',
+                            fontSize: '1.5rem',
+                            fontWeight: 'bold',
+                            pointerEvents: 'none',
+                            zIndex: 10,
+                            border: '3px solid white',
+                            textTransform: 'uppercase',
+                            letterSpacing: '0.15em',
+                            boxShadow: '0 4px 20px rgba(0,0,0,0.5)',
+                            opacity: sliderPosition <= 10 ? 1 : 0,
+                            transition: 'opacity 0.3s ease-in-out'
+                        }}
+                    >
+                        Avant travaux
+                    </div>
                 </div>
 
                 {/* Slider Handle */}
