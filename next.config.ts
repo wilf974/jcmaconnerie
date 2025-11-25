@@ -13,6 +13,11 @@ const nextConfig: NextConfig = {
     },
     responseLimit: false,
   },
+  // Configuration pour les images
+  images: {
+    remotePatterns: [],
+    unoptimized: false,
+  },
 };
 
 export default nextConfig;
