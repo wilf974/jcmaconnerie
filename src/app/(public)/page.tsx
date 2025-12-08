@@ -26,6 +26,9 @@ export default async function Home() {
         heroButton2Link: "/realisations"
     }
 
+    const siteConfig = await prisma.siteConfig.findFirst()
+    const logoPath = siteConfig?.logoPath || '/assets/Logo.png'
+
     return (
         <>
             {/* Hero Section */}
@@ -53,7 +56,7 @@ export default async function Home() {
                 <div className="container text-center" style={{ position: 'relative', zIndex: 1 }}>
                     <div style={{ marginBottom: '2rem' }}>
                         <Image
-                            src="/assets/Logo.jpg"
+                            src={logoPath}
                             alt="JC Maçonnerie Logo"
                             width={150}
                             height={150}
