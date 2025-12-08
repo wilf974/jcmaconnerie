@@ -32,10 +32,9 @@ export async function POST(req: NextRequest) {
             )
         }
 
-        // Générer un nom de fichier unique
-        const timestamp = Date.now()
+        // Générer le nom de fichier du logo
         const ext = file.name.split('.').pop() || 'png'
-        const filename = `logo-${timestamp}.${ext}`
+        const filename = `logo.${ext}`
 
         // Créer le répertoire s'il n'existe pas
         const uploadDir = join(process.cwd(), 'public/assets')
