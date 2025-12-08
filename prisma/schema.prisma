@@ -86,3 +86,9 @@ model FooterConfig {
   address            String
   updatedAt          DateTime @updatedAt
 }
+
+model SiteConfig {
+  id        String @id @default(cuid())
+  logoPath  String @default("/assets/Logo.png")
+  updatedAt DateTime @updatedAt
+}

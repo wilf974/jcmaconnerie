@@ -4,7 +4,11 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useState } from 'react'
 
-export default function Navbar() {
+interface NavbarProps {
+    logoPath?: string
+}
+
+export default function Navbar({ logoPath = '/assets/Logo.png' }: NavbarProps) {
     const [isOpen, setIsOpen] = useState(false)
 
     return (
@@ -12,7 +16,7 @@ export default function Navbar() {
             <div className="container navbar-content">
                 <Link href="/" className="logo" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }} onClick={() => setIsOpen(false)}>
                     <Image
-                        src="/assets/Logo.jpg"
+                        src={logoPath}
                         alt="JC Maçonnerie"
                         width={40}
                         height={40}

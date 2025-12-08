@@ -19,6 +19,7 @@ export default function AdminLayout({
                 </div>
                 <nav style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                     <Link href="/admin" className="nav-link">Dashboard</Link>
+                    <Link href="/admin/logo" className="nav-link">Logo</Link>
                     <Link href="/admin/accueil" className="nav-link">Page d'Accueil</Link>
                     <Link href="/admin/footer" className="nav-link">Pied de Page</Link>
                     <Link href="/admin/services" className="nav-link">Services</Link>
