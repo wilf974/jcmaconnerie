@@ -18,17 +18,17 @@ export default function AdminLayout({
                     <h2 style={{ fontSize: '1.5rem' }}>JC Admin</h2>
                 </div>
                 <nav style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                    <Link href="/admin" className="nav-link">Dashboard</Link>
-                    <Link href="/admin/logo" className="nav-link">Logo</Link>
-                    <Link href="/admin/accueil" className="nav-link">Page d'Accueil</Link>
-                    <Link href="/admin/footer" className="nav-link">Pied de Page</Link>
-                    <Link href="/admin/services" className="nav-link">Services</Link>
-                    <Link href="/admin/realisations" className="nav-link">Réalisations</Link>
-                    <Link href="/admin/avant-apres" className="nav-link">Avant/Après</Link>
-                    <Link href="/admin/temoignages" className="nav-link">Témoignages</Link>
-                    <Link href="/admin/messages" className="nav-link">Messages</Link>
+                    <Link href="/admin" style={{ color: 'var(--color-text)', fontWeight: 600 }}>Dashboard</Link>
+                    <Link href="/admin/logo" style={{ color: 'var(--color-text)', fontWeight: 600 }}>Logo</Link>
+                    <Link href="/admin/accueil" style={{ color: 'var(--color-text)', fontWeight: 600 }}>Page d'Accueil</Link>
+                    <Link href="/admin/footer" style={{ color: 'var(--color-text)', fontWeight: 600 }}>Pied de Page</Link>
+                    <Link href="/admin/services" style={{ color: 'var(--color-text)', fontWeight: 600 }}>Services</Link>
+                    <Link href="/admin/realisations" style={{ color: 'var(--color-text)', fontWeight: 600 }}>Réalisations</Link>
+                    <Link href="/admin/avant-apres" style={{ color: 'var(--color-text)', fontWeight: 600 }}>Avant/Après</Link>
+                    <Link href="/admin/temoignages" style={{ color: 'var(--color-text)', fontWeight: 600 }}>Témoignages</Link>
+                    <Link href="/admin/messages" style={{ color: 'var(--color-text)', fontWeight: 600 }}>Messages</Link>
                     <div style={{ marginTop: 'auto', paddingTop: '2rem' }}>
-                        <Link href="/" className="nav-link" style={{ color: 'var(--color-accent)' }}>Retour au site</Link>
+                        <Link href="/" style={{ color: 'var(--color-accent)', fontWeight: 600 }}>Retour au site</Link>
                     </div>
                 </nav>
             </aside>
