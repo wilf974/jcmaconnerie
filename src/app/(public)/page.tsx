@@ -1,4 +1,3 @@
-import Image from 'next/image'
 import Link from 'next/link'
 import { prisma } from "@/lib/prisma"
 import BeforeAfterSlider from '@/components/BeforeAfterSlider'
@@ -55,7 +54,7 @@ export default async function Home() {
                 
                 <div className="container text-center" style={{ position: 'relative', zIndex: 1 }}>
                     <div style={{ marginBottom: '2rem' }}>
-                        <Image
+                        <img
                             src={logoPath}
                             alt="JC Maçonnerie Logo"
                             width={150}

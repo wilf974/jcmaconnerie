@@ -1,7 +1,6 @@
 'use client'
 
 import Link from 'next/link'
-import Image from 'next/image'
 import { useState } from 'react'
 
 interface NavbarProps {
@@ -15,7 +14,7 @@ export default function Navbar({ logoPath = '/assets/Logo.png' }: NavbarProps) {
         <nav className="navbar">
             <div className="container navbar-content">
                 <Link href="/" className="logo" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }} onClick={() => setIsOpen(false)}>
-                    <Image
+                    <img
                         src={logoPath}
                         alt="JC Maçonnerie"
                         width={40}
