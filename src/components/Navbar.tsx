@@ -14,13 +14,6 @@ export default function Navbar({ logoPath = '/assets/Logo.png' }: NavbarProps) {
         <nav className="navbar">
             <div className="container navbar-content">
                 <Link href="/" className="logo" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }} onClick={() => setIsOpen(false)}>
-                    <img
-                        src={logoPath}
-                        alt="JC Maçonnerie"
-                        width={40}
-                        height={40}
-                        style={{ borderRadius: '50%' }}
-                    />
                     <h2 style={{ color: 'white', margin: 0, fontSize: '1.2rem' }}>JC Maçonnerie</h2>
                 </Link>
                 
